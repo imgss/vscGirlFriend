@@ -1,5 +1,4 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the necessary extensibility types to use in your code below
+
 import {window, commands, Disposable, ExtensionContext, StatusBarAlignment, StatusBarItem, TextDocument} from 'vscode';
 
 // This method is called when your extension is activated. Activation is
@@ -11,22 +10,23 @@ export function activate(context: ExtensionContext) {
     console.log('Congratulations, your extension "WordCount" is now active!');
 
     // create a new word counter
-    let wordCounter = new WordCounter();
+    let gf = new GF();
 
     let disposable = commands.registerCommand('extension.sayHello', () => {
-        wordCounter.updateWordCount();
+        gf.updateTimer();
     });
 
     // Add to a list of disposables which are disposed when this extension is deactivated.
-    context.subscriptions.push(wordCounter);
+    context.subscriptions.push(gf);
     context.subscriptions.push(disposable);
 }
 
-class WordCounter {
+class GF {
 
     private _statusBarItem: StatusBarItem;
+    private timer: Date;
 
-    public updateWordCount() {
+    public updateTimer() {
 
         // Create as needed
         if (!this._statusBarItem) {
@@ -39,19 +39,15 @@ class WordCounter {
             this._statusBarItem.hide();
             return;
         }
+        this._statusBarItem.show();
+        let now = 0;
+        console.log(now)
+        setInterval(() => {
+            console.log(now)
+            this._statusBarItem.text = `已开始${now++}s`
+        }, 1000);
 
-        let doc = editor.document;
-
-        // Only update status if an Markdown file
-        if (doc.languageId === "markdown") {
-            let wordCount = this._getWordCount(doc);
-
-            // Update the status bar
-            this._statusBarItem.text = wordCount !== 1 ? `${wordCount} Words` : '1 Word';
-            this._statusBarItem.show();
-        } else {
-            this._statusBarItem.hide();
-        }
+        
     }
 
     public _getWordCount(doc: TextDocument): number {
