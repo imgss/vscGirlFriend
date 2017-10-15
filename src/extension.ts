@@ -26,6 +26,7 @@ class GF {
 
     private _statusBarItem: StatusBarItem;
     private gfName: string;
+    private timer: number;
 
     public getName(){
         window.showInputBox({
@@ -50,17 +51,37 @@ class GF {
             return;
         }
         this._statusBarItem.show();
-        let now = 0;
+        this.timer = 0;
         setInterval(() => {
-            this._statusBarItem.text = `已开始${now++}s`;
-            if(now % 60 === 0){
-                this.showMsg(`${this.gfName}:老公，已撸代码长达${now/60}分钟`);
+            this._statusBarItem.text = `已开始${this.timer++}s`;
+            if(this.timer % 60 === 0){
+                this.showMsg(this.timer / 60);
             }
         }, 1000);
     }
 
-    public showMsg(msg: string) {
-        window.showInformationMessage(msg, '重新计时');
+    public showMsg(now: number) {//过去多少分钟
+        if(now % 60 === 0){
+            let msg = `${this.gfName}:老公，你已经连续写了一个小时了，脖子，腰，背是不是很难受?😰`
+            window.showInformationMessage(msg, '重新计时').then(action =>{
+                this.timer = 0;
+            });
+            return;
+        }
+        if(now % 30 === 0){//过去半小时
+            let msg = `${this.gfName}:老公，你已经敲了${now}分钟了，接杯热水，走动走动哦☕`
+            window.showInformationMessage(msg, '重新计时').then(action =>{
+                this.timer = 0;
+            });
+            return;
+        }
+        if(now % 10 === 0){//过去十分钟
+            let msg = `${this.gfName}:老公，你已经敲了${now}分钟了，环顾四周，看看风景😘`
+            window.showInformationMessage(msg, '重新计时').then(action =>{
+                this.timer = 0;
+            });
+            return;
+        }
     }
 
     dispose() {
