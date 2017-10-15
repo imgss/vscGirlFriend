@@ -13,6 +13,7 @@ export function activate(context: ExtensionContext) {
     let gf = new GF();
 
     let disposable = commands.registerCommand('extension.sayHello', () => {
+        gf.getName();
         gf.updateTimer();
     });
 
@@ -24,7 +25,16 @@ export function activate(context: ExtensionContext) {
 class GF {
 
     private _statusBarItem: StatusBarItem;
-    private timer: Date;
+    private gfName: string;
+
+    public getName(){
+        window.showInputBox({
+            placeHolder: '给你女朋友取个名字'
+        }).then(name => {
+            this.gfName = name;
+            console.log(this.gfName);
+        })
+    }
 
     public updateTimer() {
 
@@ -41,28 +51,16 @@ class GF {
         }
         this._statusBarItem.show();
         let now = 0;
-        console.log(now)
         setInterval(() => {
-            console.log(now)
-            this._statusBarItem.text = `已开始${now++}s`
+            this._statusBarItem.text = `已开始${now++}s`;
+            if(now % 60 === 0){
+                this.showMsg(`${this.gfName}:老公，已撸代码长达${now/60}分钟`);
+            }
         }, 1000);
-
-        
     }
 
-    public _getWordCount(doc: TextDocument): number {
-
-        let docContent = doc.getText();
-
-        // Parse out unwanted whitespace so the split is accurate
-        docContent = docContent.replace(/(< ([^>]+)<)/g, '').replace(/\s+/g, ' ');
-        docContent = docContent.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-        let wordCount = 0;
-        if (docContent != "") {
-            wordCount = docContent.split(" ").length;
-        }
-
-        return wordCount;
+    public showMsg(msg: string) {
+        window.showInformationMessage(msg, '重新计时');
     }
 
     dispose() {
