@@ -1,5 +1,12 @@
 # vscGirlfriend README
 
+```
+Yb    dP     .dP"Y8      dP""b8      dP""b8     888888 
+ Yb  dP      `Ybo."     dP   `"     dP   `"     88__   
+  YbdP       o.`Y8b     Yb          Yb  "88     88""   
+   YP        8bodP'      YboodP      YboodP     88     
+```
+
 一个在你长时间写代码时提醒你多喝热水的vscode插件
 
 ## Features
