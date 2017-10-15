@@ -7,7 +7,7 @@ export function activate(context: ExtensionContext) {
 
     // Use the console to output diagnostic information (console.log) and errors (console.error).
     // This line of code will only be executed once when your extension is activated.
-    console.log('Congratulations, your extension "WordCount" is now active!');
+    console.log('Congratulations, your extension "vscGF" is now active!');
 
     // create a new word counter
     let gf = new GF();
@@ -26,6 +26,7 @@ class GF {
 
     private _statusBarItem: StatusBarItem;
     private gfName: string;
+    private name: string;
     private timer: number;
 
     public getName(){
@@ -33,7 +34,11 @@ class GF {
             placeHolder: '给你女朋友取个名字'
         }).then(name => {
             this.gfName = name;
-            console.log(this.gfName);
+            window.showInputBox({
+                placeHolder: '你的昵称'
+            }).then(name => {
+                this.name = name;
+            });
         })
     }
 
@@ -62,21 +67,21 @@ class GF {
 
     public showMsg(now: number) {//过去多少分钟
         if(now % 60 === 0){
-            let msg = `${this.gfName}:老公，你已经连续写了一个小时了，脖子，腰，背是不是很难受?😰`
+            let msg = `${this.gfName}:${this.name}，你已经连续写了一个小时了，脖子，腰，背是不是很难受?😰`
             window.showInformationMessage(msg, '重新计时').then(action =>{
                 this.timer = 0;
             });
             return;
         }
         if(now % 30 === 0){//过去半小时
-            let msg = `${this.gfName}:老公，你已经敲了${now}分钟了，接杯热水，走动走动哦☕`
+            let msg = `${this.gfName}:${this.name}，你已经敲了${now}分钟了，接杯热水，走动走动哦☕`
             window.showInformationMessage(msg, '重新计时').then(action =>{
                 this.timer = 0;
             });
             return;
         }
         if(now % 10 === 0){//过去十分钟
-            let msg = `${this.gfName}:老公，你已经敲了${now}分钟了，环顾四周，看看风景😘`
+            let msg = `${this.gfName}:${this.name}，你已经敲了${now}分钟了，环顾四周，看看风景😘`
             window.showInformationMessage(msg, '重新计时').then(action =>{
                 this.timer = 0;
             });
