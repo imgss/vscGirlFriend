@@ -1,8 +1,10 @@
 
-import {window, commands, Disposable, ExtensionContext, StatusBarAlignment, StatusBarItem, TextDocument} from 'vscode';
+import {window, commands, Disposable, ExtensionContext, ThemeColor,StatusBarAlignment, StatusBarItem, TextDocument} from 'vscode';
 
-// This method is called when your extension is activated. Activation is
-// controlled by the activation events defined in package.json.
+let vscode = require('vscode');
+console.dir(vscode);
+let theme = new ThemeColor('1');
+console.dir(theme)
 export function activate(context: ExtensionContext) {
 
     // Use the console to output diagnostic information (console.log) and errors (console.error).
@@ -61,6 +63,7 @@ class GF {
             this._statusBarItem.text = `已开始${this.timer++}s`;
             if(this.timer % 60 === 0){
                 this.showMsg(this.timer / 60);
+                this._statusBarItem.color = 'red'
             }
         }, 1000);
     }
@@ -76,12 +79,15 @@ class GF {
         }
         if(now % 60 === 0){
             showMsg(`你已经连续写了一个小时了，脖子，腰，背是不是很难受?😰`);
+            return;
         }
         if(now % 30 === 0){//过去半小时
             showMsg(`你已经敲了${now}分钟了，接杯热水，走动走动哦☕`);
+            return;
         }
         if(now % 10 === 0){//过去十分钟
-            showMsg(`你已经敲了${now}分钟了，环顾四周，看看风景😘`);         
+            showMsg(`你已经敲了${now}分钟了，环顾四周，看看风景😘`);
+            return;
         }
     }
 
